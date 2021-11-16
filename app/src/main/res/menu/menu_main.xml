@@ -1,0 +1,32 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="edu.ucdenver.kalthoff.checklistapp.MainActivity">
+    <item
+        android:id="@+id/action_add"
+        android:icon="@drawable/ic_baseline_add_task_24"
+        android:orderInCategory="100"
+        android:title="Add"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_sort"
+        android:orderInCategory="100"
+        android:title="Sort By"
+        app:showAsAction="always" />
+    <group >
+        <item
+            android:id="@+id/action_default_sort"
+            android:orderInCategory="100"
+            android:title="Default"
+            app:showAsAction="never" />
+        <item android:id="@+id/action_date_sort"
+            android:orderInCategory="100"
+            android:title="Date"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_urgent_sort"
+            android:orderInCategory="100"
+            android:title="Urgency"
+            app:showAsAction="never" />
+    </group>
+</menu>

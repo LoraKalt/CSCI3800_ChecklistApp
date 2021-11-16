@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Checklist App</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="priorityImageString">High priority</string>
+    <string name="exclamationImgString">red exclamation mark</string>
+    <string name="dateString">By: 1/1/2021</string>
+    <string name="todoString">TO DO</string>
+    <string name="taskString">Task*</string>
+    <string name="taskHintString">Task that needs to be done</string>
+    <string name="addDateString">Due Date</string>
+    <string name="priorityString">Priority*</string>
+    <string name="urgentString">Urgent</string>
+    <string name="moderateString">Moderate</string>
+    <string name="lowString">Low</string>
+    <string name="requiredFieldString">* Required Fields</string>
+    <string name="saveString">Save</string>
+    <string name="clearString">Clear</string>
+    <string name="exitString">Exit</string>
+    <string name="timeString">Time</string>
+    <string name="descTaskString">Task that needs to be done</string>
+    <string name="descDateString">Due date of the task</string>
+    <string name="descTimeString">Time task needs to be done</string>
+</resources>

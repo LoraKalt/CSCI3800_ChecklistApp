@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/activity_add_checklist_dialog.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/activity_main.xml" value="0.23777173913043478" />
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/card_layout.xml" value="0.264" />
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/card_widget.xml" value="0.23097826086956522" />
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/content_main.xml" value="0.23777173913043478" />
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/fragment_first.xml" value="0.23777173913043478" />
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/fragment_second.xml" value="0.23777173913043478" />
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/model.xml" value="0.23097826086956522" />
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/new_app_widget.xml" value="0.23097826086956522" />
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/menu/menu_add.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/menu/menu_main.xml" value="0.25416666666666665" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
