@@ -44,12 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         //Testing purposes only:
         todoList = new ArrayList<>();
-        todoList.add(new Checklist("Finish Homework",0,
-                "" + Calendar.getInstance().getTime(), R.drawable.priority_high_image));
+        todoList.add(new Checklist("Finish Homework",0, Calendar.getInstance(), R.drawable.priority_high_image));
         todoList.add(new Checklist("Finish new show",0,
-                "" + Calendar.getInstance().getTime(), R.drawable.priority_low_image));
-        todoList.add(new Checklist("Do the Dishes", 0,
-                "", R.drawable.priority_moderate_image));
+                Calendar.getInstance(), R.drawable.priority_low_image));
+        todoList.add(new Checklist("Do the Dishes", 0, null, R.drawable.priority_moderate_image));
 
         ChecklistAdapter checklistAdapter = new ChecklistAdapter(this, todoList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,

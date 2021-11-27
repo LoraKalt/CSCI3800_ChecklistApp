@@ -5,12 +5,12 @@ import java.util.Date;
 
 public class Checklist {
     private String todoItem;
-    private String dueDate;
+    private Calendar dueDate;
     private int priority; //1-urgent, 2-moderate, 3-not urgent
     private int taskStatus; //0=false, 1=true
     //Note: creation date will be based on incremental id in database
 
-    public Checklist(String todoItem, int taskStatus, String dueDate, int priority){
+    public Checklist(String todoItem, int taskStatus, Calendar dueDate, int priority){
        this.todoItem = todoItem;
        this.dueDate = dueDate;
        this.priority = priority;
@@ -25,9 +25,9 @@ public class Checklist {
         this.todoItem = todoItem;
     }
 
-    public String getDueDate() { return dueDate; }
+    public Calendar getDueDate() { return dueDate; }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Calendar dueDate) {
         this.dueDate = dueDate;
     }
 

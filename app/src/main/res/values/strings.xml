@@ -9,7 +9,7 @@
     <string name="todoString">TO DO</string>
     <string name="taskString">Task*</string>
     <string name="taskHintString">Task that needs to be done</string>
-    <string name="addDateString">Due Date</string>
+    <string name="addDateString">Due:</string>
     <string name="priorityString">Priority*</string>
     <string name="urgentString">Urgent</string>
     <string name="moderateString">Moderate</string>
@@ -22,4 +22,6 @@
     <string name="descTaskString">Task that needs to be done</string>
     <string name="descDateString">Due date of the task</string>
     <string name="descTimeString">Time task needs to be done</string>
+    <string name="editString">Edit</string>
+    <string name="deleteString">Delete</string>
 </resources>

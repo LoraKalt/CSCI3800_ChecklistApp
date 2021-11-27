@@ -36,14 +36,12 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
     public void onBindViewHolder(@NonNull ChecklistAdapter.Viewholder holder, int position) {
         Checklist checklist = todoList.get(position);
         holder.checkbox.setText(checklist.getTodoItem());
-        String c = checklist.getDueDate();
-
-        if (c.isEmpty()){
-            holder.date.setText("");
+        if (checklist.getDueDate() != null){
+            Calendar date = checklist.getDueDate();
+            holder.date.setText("Due: " + date.getTime());
         } else {
-            holder.date.setText("Due: " + c);
+            holder.date.setText("");
         }
-
         //set images later
     }
 

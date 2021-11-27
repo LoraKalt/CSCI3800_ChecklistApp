@@ -5,9 +5,11 @@
       <map>
         <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/activity_add_checklist_dialog.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/activity_main.xml" value="0.23777173913043478" />
-        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/card_layout.xml" value="0.264" />
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/activity_view_checklist_dialog.xml" value="0.4" />
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/card_layout.xml" value="0.4" />
         <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/card_widget.xml" value="0.23097826086956522" />
         <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/content_main.xml" value="0.23777173913043478" />
+        <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/dialog_add_checklist.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/fragment_first.xml" value="0.23777173913043478" />
         <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/fragment_second.xml" value="0.23777173913043478" />
         <entry key="..\:/Users/Lora/AndroidStudioProjects/ChecklistApp/app/src/main/res/layout/model.xml" value="0.23097826086956522" />
