@@ -26,22 +26,34 @@ public class ViewChecklistDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(binding.getRoot());
 
+
+        binding.taskCheckboxView.setText(checklist.getTodoItem());
+        binding.taskCheckboxView.setChecked(checklist.getTaskStatus());
+
+        if(checklist.getDueDate() != null){
+            binding.dueDateTextView.setText(String.format("%s", checklist.getDueDate().getTime()));
+        } else {
+            binding.dueDateTextView.setText("None");
+        }
+        binding.priorityImageView.setImageResource(checklist.getPriority());
+
         binding.exitViewBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 dismiss();
             }
         });
+        binding.deleteBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                //TODO: Delete Item
+            }
+        });
 
-        //TODO: Setup Image
-        binding.taskCheckboxView.setText(checklist.getTodoItem());
-        binding.taskCheckboxView.setChecked(checklist.getTaskStatus());
-        binding.dueDateTextView.setText(String.format("%s", checklist.getDueDate()));
 
         return builder.create();
-
     }
 
-    public void sendSelectedChecklist(Checklist checklist){
+
+    public void setChecklist(Checklist checklist){
         this.checklist = checklist;
     }
 }

@@ -43,7 +43,7 @@ public class Checklist {
         return taskStatus;
     }
 
-    private void setTaskStatus(boolean taskStatus){
+    public void setTaskStatus(boolean taskStatus){
         this.taskStatus = taskStatus;
     }
 }

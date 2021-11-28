@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         //Testing purposes only:
         todoList = new ArrayList<>();
         todoList.add(new Checklist("Finish Android App",false, Calendar.getInstance(), R.drawable.priority_high_image));
-        todoList.add(new Checklist("Buy B-Day Present for Bro",false,
+        todoList.add(new Checklist("Buy B-Day Present for Bro",true,
                 Calendar.getInstance(), R.drawable.priority_low_image));
         todoList.add(new Checklist("Walk the dog", false, null, R.drawable.priority_moderate_image));
 
@@ -56,12 +56,16 @@ public class MainActivity extends AppCompatActivity {
         checklistRV.setLayoutManager(linearLayoutManager);
         checklistRV.setAdapter(checklistAdapter);
 
+
+
         //floating action button
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                AddChecklistDialog addChecklistDialog = new AddChecklistDialog();
+                addChecklistDialog.show(getSupportFragmentManager(), "");
             }
         });
     }
@@ -71,12 +75,6 @@ public class MainActivity extends AppCompatActivity {
 //        super.onResume();
 //        loadData();
 //    }
-
-    public void addNewItem(Checklist item){
-        todoList.add(item);
-        Log.i("info", Integer.toString(todoList.size()));
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,14 +101,17 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addNewCheckItem(Checklist checklist){
-        //TODO Setup addNewCheckItem Method
+    public void addNewItem(Checklist item){
+        todoList.add(item);
+        Log.i("info", Integer.toString(todoList.size()));
+
     }
 
     public void showCheckItem(int showCheckItem){
-//        ViewChecklistDialog viewChecklistDialog = new ViewChecklistDialog();
-//        viewChecklistDialog.sendSelectedChecklist(todoList.get(showCheckItem));
-//        viewChecklistDialog.show(getSupportFragmentManager(), "");
+        Log.i("info", "Inside showCheckItem");
+        ViewChecklistDialog viewChecklistDialog = new ViewChecklistDialog();
+        viewChecklistDialog.setChecklist(todoList.get(showCheckItem));  //gets index of arraylist
+        viewChecklistDialog.show(getSupportFragmentManager(), "");
     }
 
 }

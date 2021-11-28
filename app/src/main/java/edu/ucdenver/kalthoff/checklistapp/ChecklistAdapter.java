@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,19 +37,34 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
     public void onBindViewHolder(@NonNull ChecklistAdapter.Viewholder holder, int position) {
         Checklist checklist = todoList.get(position);
         holder.checkbox.setText(checklist.getTodoItem());
+        holder.checkbox.setChecked(checklist.getTaskStatus());
         if (checklist.getDueDate() != null){
             Calendar date = checklist.getDueDate();
             holder.date.setText(String.format("Due: %s", date.getTime()));
         } else {
             holder.date.setText("");
         }
-        //TODO: Set Images
-        //TODO: Set check boolean
+
+        holder.priorityImage.setImageResource(checklist.getPriority());
+        Log.i("info", "Loading data in ChecklistAdapter");
+
+        holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                checklist.setTaskStatus(b);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return todoList.size();
+        try{
+            return todoList.size();
+        } catch (NullPointerException npe){
+            Log.i("info", "NullPointerException");
+            return 0;
+        }
+
     }
 
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -71,7 +87,7 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
 
         @Override
         public void onClick(View view) {
-            //mainActivity.showCheckItem(getAdapterPosition());
+            mainActivity.showCheckItem(getAdapterPosition());
             Log.i("info", "Item clicked on: " + getAdapterPosition());
         }
     }
