@@ -18,7 +18,7 @@
             app:srcCompat="@drawable/priority_high_image" />
 
         <CheckBox
-            android:id="@+id/TaskCheckboxView"
+            android:id="@+id/taskCheckboxView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="This is just a test"
@@ -39,10 +39,9 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/dueDateTextview"
+                android:id="@+id/dueDateTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_span="3"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -56,7 +55,7 @@
                 android:gravity="center">
 
                 <Button
-                    android:id="@+id/exitBtn"
+                    android:id="@+id/exitViewBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"

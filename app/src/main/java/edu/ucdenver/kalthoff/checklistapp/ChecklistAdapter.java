@@ -1,6 +1,6 @@
 package edu.ucdenver.kalthoff.checklistapp;
 
-import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.Viewholder> {
-    private Context context;
+    private MainActivity mainActivity;
     private ArrayList<Checklist> todoList;
 
-    public ChecklistAdapter(Context context, ArrayList<Checklist> todoList){
-        this.context = context;
+    public ChecklistAdapter(MainActivity mainActivity, ArrayList<Checklist> todoList){
+        this.mainActivity = mainActivity;
         this.todoList = todoList;
     }
 
@@ -38,11 +38,12 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
         holder.checkbox.setText(checklist.getTodoItem());
         if (checklist.getDueDate() != null){
             Calendar date = checklist.getDueDate();
-            holder.date.setText("Due: " + date.getTime());
+            holder.date.setText(String.format("Due: %s", date.getTime()));
         } else {
             holder.date.setText("");
         }
-        //set images later
+        //TODO: Set Images
+        //TODO: Set check boolean
     }
 
     @Override
@@ -50,7 +51,7 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
         return todoList.size();
     }
 
-    public class Viewholder extends RecyclerView.ViewHolder{
+    public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private ImageView priorityImage, boxImage;
         private TextView date;
         private CheckBox checkbox;
@@ -63,6 +64,15 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
             date = itemView.findViewById(R.id.dateTextbox);
             checkbox = itemView.findViewById(R.id.todoCheckbox);
 
+            itemView.setClickable(true);
+            itemView.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View view) {
+            //mainActivity.showCheckItem(getAdapterPosition());
+            Log.i("info", "Item clicked on: " + getAdapterPosition());
         }
     }
 }

@@ -7,10 +7,10 @@ public class Checklist {
     private String todoItem;
     private Calendar dueDate;
     private int priority; //1-urgent, 2-moderate, 3-not urgent
-    private int taskStatus; //0=false, 1=true
+    private boolean taskStatus; //0=false, 1=true
     //Note: creation date will be based on incremental id in database
 
-    public Checklist(String todoItem, int taskStatus, Calendar dueDate, int priority){
+    public Checklist(String todoItem, boolean taskStatus, Calendar dueDate, int priority){
        this.todoItem = todoItem;
        this.dueDate = dueDate;
        this.priority = priority;
@@ -39,11 +39,11 @@ public class Checklist {
         this.priority = priority;
     }
 
-    public int getTaskStatus(){
+    public boolean getTaskStatus(){
         return taskStatus;
     }
 
-    private void setTaskStatus(int taskStatus){
+    private void setTaskStatus(boolean taskStatus){
         this.taskStatus = taskStatus;
     }
 }

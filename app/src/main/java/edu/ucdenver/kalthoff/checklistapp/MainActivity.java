@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.View;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,14 +20,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
-
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    private ChecklistAdapter checklistAdapter;
 
     private RecyclerView checklistRV;
     private ArrayList<Checklist> todoList;
-
-    private DataManager db;
+    //private DataManager db;
 
     private int sortBy; //0=default, 1=by due date, 2=by priority
 
@@ -44,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
 
         //Testing purposes only:
         todoList = new ArrayList<>();
-        todoList.add(new Checklist("Finish Homework",0, Calendar.getInstance(), R.drawable.priority_high_image));
-        todoList.add(new Checklist("Finish new show",0,
+        todoList.add(new Checklist("Finish Android App",false, Calendar.getInstance(), R.drawable.priority_high_image));
+        todoList.add(new Checklist("Buy B-Day Present for Bro",false,
                 Calendar.getInstance(), R.drawable.priority_low_image));
-        todoList.add(new Checklist("Do the Dishes", 0, null, R.drawable.priority_moderate_image));
+        todoList.add(new Checklist("Walk the dog", false, null, R.drawable.priority_moderate_image));
 
-        ChecklistAdapter checklistAdapter = new ChecklistAdapter(this, todoList);
+        checklistAdapter = new ChecklistAdapter(this, todoList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
         checklistRV.setLayoutManager(linearLayoutManager);
@@ -70,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
 //        super.onResume();
 //        loadData();
 //    }
+
+    public void addNewItem(Checklist item){
+        todoList.add(item);
+        Log.i("info", Integer.toString(todoList.size()));
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,36 +103,14 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addToDo(Checklist checklist){
+    public void addNewCheckItem(Checklist checklist){
+        //TODO Setup addNewCheckItem Method
     }
 
-//    public void addToDo(Checklist checklist){
-//        String todo = checklist.getTodoItem();
-//        int taskStatus = checklist.getTaskStatus();
-//        String dueDate = checklist.getDueDate();
-//        int priority = checklist.getPriority();
-//
-//        db.insert(todo, taskStatus, dueDate, priority);
-//        loadData();
-//    }
-
-//    public void loadData(){
-//        Cursor cursor = db.selectAll();
-//        int listCount = cursor.getCount();
-//        todoList.clear();
-//
-//        if(listCount > 0){
-//            while(cursor.moveToNext()){
-//                String todo = cursor.getString(1);
-//                int taskStatus = cursor.getInt(2);
-//                String dueDate = cursor.getString(3);
-//                int priority = cursor.getInt(4);
-//
-//                Checklist check = new Checklist(todo, taskStatus, dueDate, priority);
-//            }
-//        }
-//    }
-
-
+    public void showCheckItem(int showCheckItem){
+//        ViewChecklistDialog viewChecklistDialog = new ViewChecklistDialog();
+//        viewChecklistDialog.sendSelectedChecklist(todoList.get(showCheckItem));
+//        viewChecklistDialog.show(getSupportFragmentManager(), "");
+    }
 
 }
