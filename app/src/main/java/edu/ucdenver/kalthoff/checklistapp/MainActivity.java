@@ -43,12 +43,13 @@ public class MainActivity extends AppCompatActivity {
         //Set up Recycler View
         checklistRV = findViewById(R.id.checklistRecyclerView);
 
-        //Testing purposes only:
         todoList = new ArrayList<>();
-        todoList.add(new Checklist("Finish Android App",false, Calendar.getInstance(), R.drawable.priority_high_image));
-        todoList.add(new Checklist("Buy B-Day Present for Bro",true,
-                Calendar.getInstance(), R.drawable.priority_low_image));
-        todoList.add(new Checklist("Walk the dog", false, null, R.drawable.priority_moderate_image));
+        //Testing purposes only:
+
+//        todoList.add(new Checklist("Finish Android App",false, Calendar.getInstance(), R.drawable.priority_high_image));
+//        todoList.add(new Checklist("Buy B-Day Present for Bro",true,
+//                Calendar.getInstance(), R.drawable.priority_low_image));
+//        todoList.add(new Checklist("Walk the dog", false, null, R.drawable.priority_moderate_image));
 
         checklistAdapter = new ChecklistAdapter(this, todoList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
                 AddChecklistDialog addChecklistDialog = new AddChecklistDialog();
                 addChecklistDialog.show(getSupportFragmentManager(), "");
+                Log.i("info", "FAB button pressed");
             }
         });
     }
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     public void addNewItem(Checklist item){
         todoList.add(item);
         Log.i("info", Integer.toString(todoList.size()));
+        checklistAdapter.notifyDataSetChanged();
 
     }
 

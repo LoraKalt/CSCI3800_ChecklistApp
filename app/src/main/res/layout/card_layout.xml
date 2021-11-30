@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="18dp"
             android:contentDescription="@string/priorityImageString"
-            app:srcCompat="@color/teal_700" />
+            app:srcCompat="@color/purple_500" />
 
         <LinearLayout
             android:id="@+id/horizontalLinearLayout"

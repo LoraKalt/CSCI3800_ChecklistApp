@@ -7,72 +7,61 @@ import androidx.fragment.app.DialogFragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import java.util.Calendar;
 
 import edu.ucdenver.kalthoff.checklistapp.databinding.DialogAddChecklistBinding;
+import edu.ucdenver.kalthoff.checklistapp.databinding.DialogViewChecklistBinding;
 
 public class AddChecklistDialog extends DialogFragment {
     private DialogAddChecklistBinding binding;
+    private Checklist check;
 
-    public AddChecklistDialog(){}
+    public AddChecklistDialog() {
+    }
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        super.onCreateDialog(savedInstanceState);
         binding = DialogAddChecklistBinding.inflate(LayoutInflater.from(getContext()));
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(binding.getRoot());
 
-        //Sets up Menu Toolbar
-        binding.toolbarAdd.inflateMenu(R.menu.menu_add);
-        binding.toolbarAdd.setOnMenuItemClickListener(item -> {
-            switch(item.getItemId()){
-                case R.id.action_exit:
-                    dismiss();
-                    return true;
-            }
-            return true;
-        });
 
-        binding.exitBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
+        binding.exitBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 dismiss();
-
             }
         });
-
-        binding.clearBtn.setOnClickListener(new View.OnClickListener(){
-
-            @Override
+        binding.clearBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                Log.i("info", "Clear button clicked.");
                 binding.editTextTask.setText("");
                 //TODO: Change date picker on a later date
                 binding.editTextDate.setText("");
-                binding.editTextTime.setText("");
 
                 binding.lowRadioBtn.setChecked(true);
                 binding.editTextTask.requestFocus();
             }
         });
-
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("info", "Save button clicked.");
                 String task = binding.editTextTask.getText().toString();
-                //TODO: Get Date and Time
+                //TODO: Get Date
                 Calendar date = null;
 
                 int priority = 0;
-                if(binding.lowRadioBtn.isChecked()){
+                if (binding.lowRadioBtn.isChecked()) {
                     priority = R.drawable.priority_low_image;
-                }
-                else if (binding.moderateRadioBtn.isChecked()){
+                } else if (binding.moderateRadioBtn.isChecked()) {
                     priority = R.drawable.priority_moderate_image;
-                }
-                else {
+                } else {
                     priority = R.drawable.priority_high_image;
                 }
 
@@ -87,11 +76,12 @@ public class AddChecklistDialog extends DialogFragment {
 
 
         return builder.create();
+
     }
 
-
-
-
+    public void sendSelectedItem(Checklist check) {
+        this.check = check;
+    }
 
 
 }
