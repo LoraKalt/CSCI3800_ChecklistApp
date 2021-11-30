@@ -1,7 +1,6 @@
 package edu.ucdenver.kalthoff.checklistapp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -14,13 +13,16 @@ import android.view.View;
 import java.util.Calendar;
 
 import edu.ucdenver.kalthoff.checklistapp.databinding.DialogAddChecklistBinding;
-import edu.ucdenver.kalthoff.checklistapp.databinding.DialogViewChecklistBinding;
 
 public class AddChecklistDialog extends DialogFragment {
     private DialogAddChecklistBinding binding;
-    private Checklist check;
+    private Checklist checkItem;
+    private boolean isEdit;
+    private int index;
 
     public AddChecklistDialog() {
+        this.isEdit = false;
+        this.index = 0;
     }
 
     @NonNull
@@ -30,6 +32,22 @@ public class AddChecklistDialog extends DialogFragment {
         binding = DialogAddChecklistBinding.inflate(LayoutInflater.from(getContext()));
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(binding.getRoot());
+
+        if (checkItem != null){
+            Log.i("info", "Inside editCheckItem");
+            binding.editTextTask.setText(checkItem.getTodoItem());
+            if (checkItem.getDueDate() != null){
+                binding.editTextDate.setText(checkItem.getTodoItem());
+            }
+            if (checkItem.getPriority() == R.drawable.priority_high_image){
+                binding.urgentRadioBtn.setChecked(true);
+            } else if (checkItem.getPriority() == R.drawable.priority_moderate_image){
+                binding.moderateRadioBtn.setChecked(true);
+            } else {
+                binding.lowRadioBtn.setChecked(true);
+            }
+            this.isEdit = true;
+        }
 
 
         binding.exitBtn.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +69,6 @@ public class AddChecklistDialog extends DialogFragment {
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("info", "Save button clicked.");
                 String task = binding.editTextTask.getText().toString();
                 //TODO: Get Date
                 Calendar date = null;
@@ -64,23 +81,33 @@ public class AddChecklistDialog extends DialogFragment {
                 } else {
                     priority = R.drawable.priority_high_image;
                 }
+                //TODO: Try/catch with date and make sure task and priority are specified
 
-                Checklist item = new Checklist(task, false, date, priority);
-
+                //TODO: specify if we're adding or editing
                 MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.addNewItem(item);
+                Checklist item = new Checklist(task, false, date, priority);
+                if(isEdit){
+                    mainActivity.editItem(item, index);
+                }
+                else{
+                    mainActivity.addNewItem(item);
+                }
+
+                //Clears it for the next time we edit
+                isEdit = false;
+                checkItem = null;
                 dismiss();
 
             }
         });
 
-
         return builder.create();
 
     }
 
-    public void sendSelectedItem(Checklist check) {
-        this.check = check;
+    public void sendSelectedItem(Checklist check, int index) {
+        this.checkItem = check;
+        this.index = index;
     }
 
 

@@ -17,11 +17,11 @@ import java.util.Calendar;
 
 public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.Viewholder> {
     private MainActivity mainActivity;
-    private ArrayList<Checklist> todoList;
+    private ArrayList<Checklist> checklist;
 
-    public ChecklistAdapter(MainActivity mainActivity, ArrayList<Checklist> todoList){
+    public ChecklistAdapter(MainActivity mainActivity, ArrayList<Checklist> checklist){
         this.mainActivity = mainActivity;
-        this.todoList = todoList;
+        this.checklist = checklist;
     }
 
 
@@ -35,7 +35,7 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ChecklistAdapter.Viewholder holder, int position) {
-        Checklist checklist = todoList.get(position);
+        Checklist checklist = this.checklist.get(position);
         holder.checkbox.setText(checklist.getTodoItem());
         holder.checkbox.setChecked(checklist.getTaskStatus());
         if (checklist.getDueDate() != null){
@@ -59,7 +59,7 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
     @Override
     public int getItemCount() {
         try{
-            return todoList.size();
+            return checklist.size();
         } catch (NullPointerException npe){
             Log.i("info", "NullPointerException");
             return 0;

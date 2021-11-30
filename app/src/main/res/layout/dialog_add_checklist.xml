@@ -87,6 +87,7 @@
                         android:id="@+id/lowRadioBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:checked="true"
                         android:drawableStart="@drawable/priority_low_image"
                         android:text="@string/lowString" />
 
