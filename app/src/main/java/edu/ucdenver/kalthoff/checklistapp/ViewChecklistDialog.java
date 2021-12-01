@@ -49,6 +49,13 @@ public class ViewChecklistDialog extends DialogFragment {
             binding.dueDateTextView.setText("None");
         }
         binding.priorityImageView.setImageResource(checkItem.getPriority());
+        if(checkItem.getPriority() == R.drawable.priority_low_image){
+            binding.priorityTextView.setText(R.string.lowPriorityString);
+        } else if(checkItem.getPriority() == R.drawable.priority_moderate_image){
+            binding.priorityTextView.setText(R.string.moderatePriorityString);
+        } else{
+            binding.priorityTextView.setText(R.string.urgentPriorityString);
+        }
 
 
         //Back to Main Menu
@@ -62,19 +69,21 @@ public class ViewChecklistDialog extends DialogFragment {
             public void onClick(View view){
                 //TODO: Fix Alert popup
 
-                AlertDialog.Builder alert2 = new AlertDialog.Builder(getContext());
-                alert2.setTitle("Delete Task");
-                alert2.setMessage("Are you sure you want to delete this task?");
-                alert2.setCancelable(false);
-                alert2.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder deleteAlert = new AlertDialog.Builder(getContext());
+                deleteAlert.setTitle("Delete Task?");
+                deleteAlert.setMessage("Are you sure you want to delete this task?");
+                deleteAlert.setCancelable(false);
+
+                deleteAlert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
                         MainActivity mainActivity = (MainActivity) getActivity();
                         mainActivity.deleteItem(index);
                         dismiss();
                     }
                 });
-                alert2.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                deleteAlert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();

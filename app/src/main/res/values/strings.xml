@@ -29,4 +29,7 @@
     <string name="sortDateString">Sort by Date</string>
     <string name="addMenuString">Add</string>
     <string name="deleteCheckedString">Delete Checked</string>
+    <string name="lowPriorityString">Low Priority</string>
+    <string name="moderatePriorityString">Moderate Priority</string>
+    <string name="urgentPriorityString">Urgent Priority</string>
 </resources>

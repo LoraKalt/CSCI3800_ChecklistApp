@@ -11,18 +11,33 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme" />
+
         <ImageView
             android:id="@+id/priorityImageView"
             android:layout_width="match_parent"
             android:layout_height="98dp"
             app:srcCompat="@drawable/priority_high_image" />
 
+        <TextView
+            android:id="@+id/priorityTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="16sp" />
+
         <CheckBox
             android:id="@+id/taskCheckboxView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="This is just a test"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

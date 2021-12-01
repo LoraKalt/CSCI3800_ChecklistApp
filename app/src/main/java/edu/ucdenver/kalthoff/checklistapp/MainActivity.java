@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
@@ -124,6 +125,23 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Checklist is empty", Toast.LENGTH_SHORT).show();
             }
 
+        }else if (id == R.id.action_default_sort) {
+            if(!checklist.isEmpty()) {
+                Collections.sort(checklist, new creationComparator());
+                checklistAdapter.notifyDataSetChanged();
+            }
+        }
+        else if (id == R.id.action_date_sort){
+            if(!checklist.isEmpty()){
+                Collections.sort(checklist, new dateComparator());
+                checklistAdapter.notifyDataSetChanged();
+            }
+
+        } else if (id == R.id.action_urgent_sort){
+            if(!checklist.isEmpty()) {
+                Collections.sort(checklist, new priorityComparator());
+                checklistAdapter.notifyDataSetChanged();
+            }
         }
 
 
