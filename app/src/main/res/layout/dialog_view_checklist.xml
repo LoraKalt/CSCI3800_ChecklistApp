@@ -19,18 +19,18 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme" />
 
-        <ImageView
-            android:id="@+id/priorityImageView"
-            android:layout_width="match_parent"
-            android:layout_height="98dp"
-            app:srcCompat="@drawable/priority_high_image" />
-
         <TextView
             android:id="@+id/priorityTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/priorityImageView"
+            android:layout_width="match_parent"
+            android:layout_height="98dp"
+            app:srcCompat="@drawable/priority_high_image" />
 
         <CheckBox
             android:id="@+id/taskCheckboxView"

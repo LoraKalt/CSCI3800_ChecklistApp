@@ -122,25 +122,31 @@ public class MainActivity extends AppCompatActivity {
                 alertDialog.show();
             } else {
                 //If the list is empty, pops up a message
-                Toast.makeText(getApplicationContext(), "Checklist is empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Checklist is empty", Toast.LENGTH_LONG).show();
             }
 
         }else if (id == R.id.action_default_sort) {
             if(!checklist.isEmpty()) {
                 Collections.sort(checklist, new creationComparator());
                 checklistAdapter.notifyDataSetChanged();
+            } else {
+                Toast.makeText(getApplicationContext(), "Nothing to sort", Toast.LENGTH_LONG).show();
             }
         }
         else if (id == R.id.action_date_sort){
             if(!checklist.isEmpty()){
                 Collections.sort(checklist, new dateComparator());
                 checklistAdapter.notifyDataSetChanged();
+            }else {
+                Toast.makeText(getApplicationContext(), "Nothing to sort", Toast.LENGTH_LONG).show();
             }
 
         } else if (id == R.id.action_urgent_sort){
             if(!checklist.isEmpty()) {
                 Collections.sort(checklist, new priorityComparator());
                 checklistAdapter.notifyDataSetChanged();
+            }else {
+                Toast.makeText(getApplicationContext(), "Nothing to sort", Toast.LENGTH_LONG).show();
             }
         }
 

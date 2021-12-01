@@ -43,6 +43,8 @@ public class AddChecklistDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(binding.getRoot());
 
+        Calendar currentDate = Calendar.getInstance();
+
         if (checkItem != null){
             Log.i("info", "Inside editCheckItem");
             binding.editTextTask.setText(checkItem.getTodoItem());
@@ -129,7 +131,6 @@ public class AddChecklistDialog extends DialogFragment {
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO Character Limit
                 String task = binding.editTextTask.getText().toString();
                 if (binding.editTextDate.getText().toString().isEmpty()){
                     pickedDate = null;
@@ -145,6 +146,7 @@ public class AddChecklistDialog extends DialogFragment {
                 } else {
                     priority = 0;
                 }
+
                 //Makes sure that required fields are filled
                 if (task.equals("") || priority == 0) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
@@ -158,11 +160,39 @@ public class AddChecklistDialog extends DialogFragment {
                         }
                     });
 
-                    //TODO: Add an alert for when calendar date picked is past current date
-
                     AlertDialog alertDialog = alert.create();
                     alertDialog.show();
-                } else {
+
+                } else if(pickedDate != null){
+                    if(pickedDate.compareTo(currentDate) < 0){
+                        AlertDialog.Builder calAlert = new AlertDialog.Builder(getContext());
+                        calAlert.setTitle("Due date");
+                        calAlert.setMessage("Date should be set the day of or after today's date");
+                        calAlert.setCancelable(false);
+                        calAlert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        AlertDialog alertDialog = calAlert.create();
+                        alertDialog.show();
+                }
+
+                }else if(task.length() >= 60){
+                    AlertDialog.Builder limitAlert = new AlertDialog.Builder(getContext());
+                    limitAlert.setTitle("Exceeded Character Limit");
+                    limitAlert.setMessage("Task field should be no longer than 60 characters");
+                    limitAlert.setCancelable(false);
+                    limitAlert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = limitAlert.create();
+                    alertDialog.show();
+                }else {
                     MainActivity mainActivity = (MainActivity) getActivity();
                     Checklist item = new Checklist(task, false, pickedDate, priority);
                     if(isEdit){

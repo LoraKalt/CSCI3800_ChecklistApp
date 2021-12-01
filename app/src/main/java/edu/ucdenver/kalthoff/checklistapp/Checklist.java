@@ -69,23 +69,19 @@ public class Checklist {
 
 class dateComparator implements Comparator<Checklist>{
     public int compare(Checklist c1, Checklist c2){
-        //TODO: Try to figure out how to handle null due dates
         try{
+            Calendar c1New = c1.getCreationDate();
+            c1New.set(Calendar.YEAR, 9000);
+            Calendar c2New = c2.getCreationDate();
+            c2New.set(Calendar.YEAR, 9000);
+
             if (c1.getDueDate() != null && c2.getDueDate() != null) {
                 return c1.getDueDate().compareTo(c2.getDueDate());
             } else if (c1.getDueDate() != null && c2.getDueDate() == null) {
-                Calendar c2New = c2.getCreationDate();
-                c2New.set(Calendar.YEAR, 9000);
                 return c1.getDueDate().compareTo(c2New);
             } else if (c1.getDueDate() == null && c2.getDueDate() != null) {
-                Calendar c1New = c1.getCreationDate();
-                c1New.set(Calendar.YEAR, 9000);
                 return c1New.compareTo(c2.getDueDate());
             } else {
-                Calendar c1New = c1.getCreationDate();
-                c1New.set(Calendar.YEAR, 9000);
-                Calendar c2New = c2.getCreationDate();
-                c2New.set(Calendar.YEAR, 9000);
                 return c1New.compareTo(c2New);
             }
         } catch(NullPointerException npe){

@@ -67,8 +67,6 @@ public class ViewChecklistDialog extends DialogFragment {
         //Deletes Task
         binding.deleteBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                //TODO: Fix Alert popup
-
                 AlertDialog.Builder deleteAlert = new AlertDialog.Builder(getContext());
                 deleteAlert.setTitle("Delete Task?");
                 deleteAlert.setMessage("Are you sure you want to delete this task?");
@@ -89,7 +87,8 @@ public class ViewChecklistDialog extends DialogFragment {
                         dialogInterface.cancel();
                     }
                 });
-
+                AlertDialog alertDialog = deleteAlert.create();
+                alertDialog.show();
             }
         });
 
