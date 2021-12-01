@@ -4,14 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
 
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import edu.ucdenver.kalthoff.checklistapp.databinding.DialogAddChecklistBinding;
 
@@ -20,6 +25,10 @@ public class AddChecklistDialog extends DialogFragment {
     private Checklist checkItem;
     private boolean isEdit;
     private int index;
+    private int year;
+    private int month;
+    private int day;
+    private Calendar pickedDate;
 
     public AddChecklistDialog() {
         this.isEdit = false;
@@ -38,7 +47,15 @@ public class AddChecklistDialog extends DialogFragment {
             Log.i("info", "Inside editCheckItem");
             binding.editTextTask.setText(checkItem.getTodoItem());
             if (checkItem.getDueDate() != null){
-                binding.editTextDate.setText(checkItem.getTodoItem());
+                String weekName = checkItem.getDueDate().getDisplayName(Calendar.DAY_OF_WEEK,
+                        Calendar.SHORT, Locale.US);
+                String monthName = checkItem.getDueDate().getDisplayName(Calendar.MONTH,
+                        Calendar.SHORT, Locale.US);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd, yyyy", Locale.US);
+                binding.editTextDate.setText(String.format("%s, %s. %s", weekName, monthName,
+                        sdf.format(checkItem.getDueDate().getTime())));
+                pickedDate = checkItem.getDueDate();
+
             }
             if (checkItem.getPriority() == R.drawable.priority_high_image){
                 binding.urgentRadioBtn.setChecked(true);
@@ -48,7 +65,49 @@ public class AddChecklistDialog extends DialogFragment {
                 binding.lowRadioBtn.setChecked(true);
             }
             this.isEdit = true;
+        } else {
+            pickedDate = null;
         }
+
+
+
+        binding.editTextDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isEdit && pickedDate != null) {
+                    year = pickedDate.get(Calendar.YEAR);
+                    month = pickedDate.get(Calendar.MONTH);
+                    day = pickedDate.get(Calendar.DAY_OF_MONTH);
+                } else {
+                    Calendar currentDate = Calendar.getInstance();
+                    year = currentDate.get(Calendar.YEAR);
+                    month = currentDate.get(Calendar.MONTH);
+                    day = currentDate.get(Calendar.DAY_OF_MONTH);
+                }
+
+                //Allows user to select a date from date picker widget
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int selectedYear, int
+                            selectedMonth, int selectedDay) {
+                        Calendar date = Calendar.getInstance();
+                        date.set(Calendar.YEAR, selectedYear);
+                        date.set(Calendar.MONTH, selectedMonth);
+                        date.set(Calendar.DAY_OF_MONTH, selectedDay);
+                        String weekName = date.getDisplayName(Calendar.DAY_OF_WEEK,
+                                Calendar.SHORT, Locale.US);
+                        String monthName = date.getDisplayName(Calendar.MONTH,
+                                Calendar.SHORT, Locale.US);
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd, yyyy", Locale.US);
+                        binding.editTextDate.setText(String.format("%s, %s. %s", weekName, monthName,
+                                sdf.format(date.getTime())));
+
+                        pickedDate = date;
+                    }
+                }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
 
 
         binding.exitBtn.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +119,7 @@ public class AddChecklistDialog extends DialogFragment {
             public void onClick(View view) {
                 Log.i("info", "Clear button clicked.");
                 binding.editTextTask.setText("");
-                //TODO: Change date picker on a later date
+
                 binding.editTextDate.setText("");
 
                 binding.lowRadioBtn.setChecked(true);
@@ -72,8 +131,9 @@ public class AddChecklistDialog extends DialogFragment {
             public void onClick(View view) {
                 //TODO Character Limit
                 String task = binding.editTextTask.getText().toString();
-                //TODO: Get Date
-                Calendar date = null;
+                if (binding.editTextDate.getText().toString().isEmpty()){
+                    pickedDate = null;
+                }
 
                 int priority = 0;
                 if (binding.lowRadioBtn.isChecked()) {
@@ -85,11 +145,11 @@ public class AddChecklistDialog extends DialogFragment {
                 } else {
                     priority = 0;
                 }
-                //TODO: Try/catch with date and make sure task and priority are specified
+                //Makes sure that required fields are filled
                 if (task.equals("") || priority == 0) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                     alert.setTitle("Empty fields");
-                    alert.setMessage("Tasks and/or priority must be specified");
+                    alert.setMessage("All required fields must be filled in");
                     alert.setCancelable(false);
                     alert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                         @Override
@@ -98,11 +158,13 @@ public class AddChecklistDialog extends DialogFragment {
                         }
                     });
 
+                    //TODO: Add an alert for when calendar date picked is past current date
+
                     AlertDialog alertDialog = alert.create();
                     alertDialog.show();
                 } else {
                     MainActivity mainActivity = (MainActivity) getActivity();
-                    Checklist item = new Checklist(task, false, date, priority);
+                    Checklist item = new Checklist(task, false, pickedDate, priority);
                     if(isEdit){
                         mainActivity.editItem(item, index);
                     }
@@ -116,10 +178,7 @@ public class AddChecklistDialog extends DialogFragment {
                     dismiss();
                 }
 
-
-
-
-            }
+            }//end on click
         });
 
         return builder.create();
@@ -130,6 +189,7 @@ public class AddChecklistDialog extends DialogFragment {
         this.checkItem = check;
         this.index = index;
     }
+
 
 
 }

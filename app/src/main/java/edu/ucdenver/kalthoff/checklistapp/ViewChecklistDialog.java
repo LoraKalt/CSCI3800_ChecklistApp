@@ -6,11 +6,17 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
+
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import edu.ucdenver.kalthoff.checklistapp.databinding.DialogViewChecklistBinding;
 
@@ -32,7 +38,13 @@ public class ViewChecklistDialog extends DialogFragment {
         binding.taskCheckboxView.setChecked(checkItem.getTaskStatus());
 
         if(checkItem.getDueDate() != null){
-            binding.dueDateTextView.setText(String.format("%s", checkItem.getDueDate().getTime()));
+            String weekName = checkItem.getDueDate().getDisplayName(Calendar.DAY_OF_WEEK,
+                    Calendar.SHORT, Locale.US);
+            String monthName = checkItem.getDueDate().getDisplayName(Calendar.MONTH,
+                    Calendar.SHORT, Locale.US);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd, yyyy", Locale.US);
+            binding.dueDateTextView.setText(String.format("%s, %s. %s", weekName, monthName,
+                    sdf.format(checkItem.getDueDate().getTime())));
         } else {
             binding.dueDateTextView.setText("None");
         }
@@ -48,10 +60,27 @@ public class ViewChecklistDialog extends DialogFragment {
         //Deletes Task
         binding.deleteBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                //TODO: Confirm Delete Message
-                MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.deleteItem(index);
-                dismiss();
+                //TODO: Fix Alert popup
+
+                AlertDialog.Builder alert2 = new AlertDialog.Builder(getContext());
+                alert2.setTitle("Delete Task");
+                alert2.setMessage("Are you sure you want to delete this task?");
+                alert2.setCancelable(false);
+                alert2.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        MainActivity mainActivity = (MainActivity) getActivity();
+                        mainActivity.deleteItem(index);
+                        dismiss();
+                    }
+                });
+                alert2.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
             }
         });
 

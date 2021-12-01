@@ -12,8 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.Viewholder> {
     private MainActivity mainActivity;
@@ -40,7 +43,13 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
         holder.checkbox.setChecked(checklist.getTaskStatus());
         if (checklist.getDueDate() != null){
             Calendar date = checklist.getDueDate();
-            holder.date.setText(String.format("Due: %s", date.getTime()));
+            String weekName = date.getDisplayName(Calendar.DAY_OF_WEEK,
+                    Calendar.SHORT, Locale.US);
+            String monthName = date.getDisplayName(Calendar.MONTH,
+                    Calendar.SHORT, Locale.US);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd, yyyy", Locale.US);
+            holder.date.setText(String.format("%s, %s. %s", weekName, monthName,
+                    sdf.format(date.getTime())));
         } else {
             holder.date.setText("");
         }
