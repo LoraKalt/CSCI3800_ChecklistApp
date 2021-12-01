@@ -6,6 +6,7 @@ import java.util.Date;
 public class Checklist {
     private String todoItem;
     private Calendar dueDate;
+    private Calendar creationDate;
     private int priority; //1-urgent, 2-moderate, 3-not urgent
     private boolean taskStatus; //0=false, 1=true
     //Note: creation date will be based on incremental id in database
@@ -15,6 +16,7 @@ public class Checklist {
        this.dueDate = dueDate;
        this.priority = priority;
        this.taskStatus = taskStatus;
+       this.creationDate = Calendar.getInstance();
     }
 
     public String getTodoItem() {
@@ -46,4 +48,6 @@ public class Checklist {
     public void setTaskStatus(boolean taskStatus){
         this.taskStatus = taskStatus;
     }
+
+    public Calendar getCreationDate(){ return creationDate;}
 }

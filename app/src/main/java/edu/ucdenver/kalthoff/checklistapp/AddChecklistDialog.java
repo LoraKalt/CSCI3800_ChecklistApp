@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,6 +70,7 @@ public class AddChecklistDialog extends DialogFragment {
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO Character Limit
                 String task = binding.editTextTask.getText().toString();
                 //TODO: Get Date
                 Calendar date = null;
@@ -78,25 +80,44 @@ public class AddChecklistDialog extends DialogFragment {
                     priority = R.drawable.priority_low_image;
                 } else if (binding.moderateRadioBtn.isChecked()) {
                     priority = R.drawable.priority_moderate_image;
-                } else {
+                } else if (binding.urgentRadioBtn.isChecked()) {
                     priority = R.drawable.priority_high_image;
+                } else {
+                    priority = 0;
                 }
                 //TODO: Try/catch with date and make sure task and priority are specified
+                if (task.equals("") || priority == 0) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                    alert.setTitle("Empty fields");
+                    alert.setMessage("Tasks and/or priority must be specified");
+                    alert.setCancelable(false);
+                    alert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
 
-                //TODO: specify if we're adding or editing
-                MainActivity mainActivity = (MainActivity) getActivity();
-                Checklist item = new Checklist(task, false, date, priority);
-                if(isEdit){
-                    mainActivity.editItem(item, index);
-                }
-                else{
-                    mainActivity.addNewItem(item);
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
+                } else {
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    Checklist item = new Checklist(task, false, date, priority);
+                    if(isEdit){
+                        mainActivity.editItem(item, index);
+                    }
+                    else{
+                        mainActivity.addNewItem(item);
+                    }
+
+                    //Clears it for the next time we edit
+                    isEdit = false;
+                    checkItem = null;
+                    dismiss();
                 }
 
-                //Clears it for the next time we edit
-                isEdit = false;
-                checkItem = null;
-                dismiss();
+
+
 
             }
         });

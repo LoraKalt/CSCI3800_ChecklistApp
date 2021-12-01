@@ -24,4 +24,9 @@
     <string name="descTimeString">Time task needs to be done</string>
     <string name="editString">Edit</string>
     <string name="deleteString">Delete</string>
+    <string name="sortPriorityString">Sort by Priority</string>
+    <string name="sortByOldestString">Sort by Oldest</string>
+    <string name="sortDateString">Sort by Date</string>
+    <string name="addMenuString">Add</string>
+    <string name="deleteCheckedString">Delete Checked</string>
 </resources>

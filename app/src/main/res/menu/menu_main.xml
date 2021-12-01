@@ -6,27 +6,27 @@
         android:id="@+id/action_add"
         android:icon="@drawable/ic_baseline_add_task_24"
         android:orderInCategory="100"
-        android:title="Add"
-        app:showAsAction="always" />
+        android:title="@string/addMenuString"
+        app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_sort"
-        android:orderInCategory="100"
-        android:title="Sort By"
-        app:showAsAction="always" />
+        android:id="@+id/action_delete_all"
+        android:title="@string/deleteCheckedString"
+        app:showAsAction="ifRoom" />
     <group >
         <item
             android:id="@+id/action_default_sort"
             android:orderInCategory="100"
-            android:title="Default"
+            android:title="@string/sortByOldestString"
             app:showAsAction="never" />
-        <item android:id="@+id/action_date_sort"
+        <item
+            android:id="@+id/action_date_sort"
             android:orderInCategory="100"
-            android:title="Date"
+            android:title="@string/sortDateString"
             app:showAsAction="never" />
         <item
             android:id="@+id/action_urgent_sort"
             android:orderInCategory="100"
-            android:title="Urgency"
+            android:title="@string/sortPriorityString"
             app:showAsAction="never" />
     </group>
 </menu>

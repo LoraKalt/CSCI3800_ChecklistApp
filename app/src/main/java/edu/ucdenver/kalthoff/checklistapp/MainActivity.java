@@ -1,7 +1,10 @@
 package edu.ucdenver.kalthoff.checklistapp;
 
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -13,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.ucdenver.kalthoff.checklistapp.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -60,11 +66,8 @@ public class MainActivity extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 AddChecklistDialog addChecklistDialog = new AddChecklistDialog();
                 addChecklistDialog.show(getSupportFragmentManager(), "");
-                Log.i("info", "FAB button pressed");
             }
         });
     }
@@ -91,11 +94,38 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
+            AddChecklistDialog addChecklistDialog = new AddChecklistDialog();
+            addChecklistDialog.show(getSupportFragmentManager(), "");
             return true;
+        } else if (id == R.id.action_delete_all){
+            //Creates popup menu asking for user confirmation
+            if(!checklist.isEmpty()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Delete Tasks");
+                builder.setMessage("Are you sure you want to delete all checked items?");
+                //builder.setCancelable(false); (for when you want to prevent them from exiting outside menu
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteAllChecked();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            } else {
+                //If the list is empty, pops up a message
+                Toast.makeText(getApplicationContext(), "Checklist is empty", Toast.LENGTH_SHORT).show();
+            }
+
         }
-         else if (id == R.id.action_sort){
-             return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -110,6 +140,15 @@ public class MainActivity extends AppCompatActivity {
     public void deleteItem(int index){
         checklist.remove(index);
         checklistAdapter.notifyDataSetChanged();
+    }
+
+    public void deleteAllChecked(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            checklist.removeIf(n -> (n.getTaskStatus() == true));
+        }
+
+        checklistAdapter.notifyDataSetChanged();
+
     }
 
     public void editItem(Checklist updatedItem, int index){
