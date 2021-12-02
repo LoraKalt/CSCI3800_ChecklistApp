@@ -163,8 +163,8 @@ public class AddChecklistDialog extends DialogFragment {
                     AlertDialog alertDialog = alert.create();
                     alertDialog.show();
 
-                } else if(pickedDate != null){
-                    if(pickedDate.compareTo(currentDate) < 0){
+                } else if(pickedDate != null && pickedDate.compareTo(currentDate) < 0){
+
                         AlertDialog.Builder calAlert = new AlertDialog.Builder(getContext());
                         calAlert.setTitle("Due date");
                         calAlert.setMessage("Date should be set the day of or after today's date");
@@ -177,7 +177,6 @@ public class AddChecklistDialog extends DialogFragment {
                         });
                         AlertDialog alertDialog = calAlert.create();
                         alertDialog.show();
-                }
 
                 }else if(task.length() >= 60){
                     AlertDialog.Builder limitAlert = new AlertDialog.Builder(getContext());
@@ -194,7 +193,7 @@ public class AddChecklistDialog extends DialogFragment {
                     alertDialog.show();
                 }else {
                     MainActivity mainActivity = (MainActivity) getActivity();
-                    Checklist item = new Checklist(task, false, pickedDate, priority);
+                    Checklist item = new Checklist(task, false, pickedDate, priority, Calendar.getInstance());
                     if(isEdit){
                         mainActivity.editItem(item, index);
                     }

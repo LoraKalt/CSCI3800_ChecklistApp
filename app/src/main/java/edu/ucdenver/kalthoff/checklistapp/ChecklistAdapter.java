@@ -38,11 +38,11 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ChecklistAdapter.Viewholder holder, int position) {
-        Checklist checklist = this.checklist.get(position);
-        holder.checkbox.setText(checklist.getTodoItem());
-        holder.checkbox.setChecked(checklist.getTaskStatus());
-        if (checklist.getDueDate() != null){
-            Calendar date = checklist.getDueDate();
+        Checklist checkItem = this.checklist.get(position);
+        holder.checkbox.setText(checkItem.getTodoItem());
+        holder.checkbox.setChecked(checkItem.getTaskStatus());
+        if (checkItem.getDueDate() != null){
+            Calendar date = checkItem.getDueDate();
             String weekName = date.getDisplayName(Calendar.DAY_OF_WEEK,
                     Calendar.SHORT, Locale.US);
             String monthName = date.getDisplayName(Calendar.MONTH,
@@ -54,15 +54,17 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
             holder.date.setText("");
         }
 
-        holder.priorityImage.setImageResource(checklist.getPriority());
-        Log.i("info", "Loading data in ChecklistAdapter");
+        holder.priorityImage.setImageResource(checkItem.getPriority());
 
         holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                checklist.setTaskStatus(b);
+                checkItem.setTaskStatus(b);
             }
         });
+
+
+
     }
 
     @Override
@@ -88,6 +90,7 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
             boxImage = itemView.findViewById(R.id.boxImage);
             date = itemView.findViewById(R.id.dateTextbox);
             checkbox = itemView.findViewById(R.id.todoCheckbox);
+
 
             itemView.setClickable(true);
             itemView.setOnClickListener(this);

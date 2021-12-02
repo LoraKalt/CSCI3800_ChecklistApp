@@ -14,12 +14,12 @@ public class Checklist {
     private boolean taskStatus; //0=false, 1=true
     //Note: creation date will be based on incremental id in database
 
-    public Checklist(String todoItem, boolean taskStatus, Calendar dueDate, int priority){
+    public Checklist(String todoItem, boolean taskStatus, Calendar dueDate, int priority, Calendar creationDate){
        this.todoItem = todoItem;
        this.dueDate = dueDate;
        this.priority = priority;
        this.taskStatus = taskStatus;
-       this.creationDate = Calendar.getInstance();
+       this.creationDate = creationDate;
     }
 
     public String getTodoItem() {

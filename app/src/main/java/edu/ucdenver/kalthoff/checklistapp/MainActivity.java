@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.toolbar);
 
 
@@ -48,12 +48,6 @@ public class MainActivity extends AppCompatActivity {
         checklistRV = findViewById(R.id.checklistRecyclerView);
 
         checklist = new ArrayList<>();
-        //Testing purposes only:
-
-//        todoList.add(new Checklist("Finish Android App",false, Calendar.getInstance(), R.drawable.priority_high_image));
-//        todoList.add(new Checklist("Buy B-Day Present for Bro",true,
-//                Calendar.getInstance(), R.drawable.priority_low_image));
-//        todoList.add(new Checklist("Walk the dog", false, null, R.drawable.priority_moderate_image));
 
         checklistAdapter = new ChecklistAdapter(this, checklist);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,
@@ -73,11 +67,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        loadData();
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

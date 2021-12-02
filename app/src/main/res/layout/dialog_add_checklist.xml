@@ -21,7 +21,8 @@
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingStart="8dp">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -62,10 +63,10 @@
                     android:layout_height="wrap_content"
                     android:layout_span="2"
                     android:focusable="false"
+                    android:importantForAutofill="no"
                     android:inputType="date"
                     android:textSize="20sp"
-                    tools:ignore="SpeakableTextPresentCheck"
-                    android:importantForAutofill="no" />
+                    tools:ignore="SpeakableTextPresentCheck" />
 
             </TableRow>
 

@@ -36,6 +36,7 @@
             android:id="@+id/taskCheckboxView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="8dp"
             android:text="This is just a test"
             android:textSize="20sp" />
 
