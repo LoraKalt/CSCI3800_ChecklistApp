@@ -45,10 +45,9 @@ public class AddChecklistDialog extends DialogFragment {
 
         Calendar currentDate = Calendar.getInstance();
 
-        if (checkItem != null){
-            Log.i("info", "Inside editCheckItem");
+        if (checkItem != null) {
             binding.editTextTask.setText(checkItem.getTodoItem());
-            if (checkItem.getDueDate() != null){
+            if (checkItem.getDueDate() != null) {
                 String weekName = checkItem.getDueDate().getDisplayName(Calendar.DAY_OF_WEEK,
                         Calendar.SHORT, Locale.US);
                 String monthName = checkItem.getDueDate().getDisplayName(Calendar.MONTH,
@@ -59,9 +58,9 @@ public class AddChecklistDialog extends DialogFragment {
                 pickedDate = checkItem.getDueDate();
 
             }
-            if (checkItem.getPriority() == R.drawable.priority_high_image){
+            if (checkItem.getPriority() == R.drawable.priority_high_image) {
                 binding.urgentRadioBtn.setChecked(true);
-            } else if (checkItem.getPriority() == R.drawable.priority_moderate_image){
+            } else if (checkItem.getPriority() == R.drawable.priority_moderate_image) {
                 binding.moderateRadioBtn.setChecked(true);
             } else {
                 binding.lowRadioBtn.setChecked(true);
@@ -72,11 +71,10 @@ public class AddChecklistDialog extends DialogFragment {
         }
 
 
-
         binding.editTextDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isEdit && pickedDate != null) {
+                if (isEdit && pickedDate != null) {
                     year = pickedDate.get(Calendar.YEAR);
                     month = pickedDate.get(Calendar.MONTH);
                     day = pickedDate.get(Calendar.DAY_OF_MONTH);
@@ -92,7 +90,10 @@ public class AddChecklistDialog extends DialogFragment {
                     @Override
                     public void onDateSet(DatePicker datePicker, int selectedYear, int
                             selectedMonth, int selectedDay) {
+
                         Calendar date = Calendar.getInstance();
+                        ;
+
                         date.set(Calendar.YEAR, selectedYear);
                         date.set(Calendar.MONTH, selectedMonth);
                         date.set(Calendar.DAY_OF_MONTH, selectedDay);
@@ -111,31 +112,33 @@ public class AddChecklistDialog extends DialogFragment {
             }
         });
 
-
+        //Returns to Main menu
         binding.exitBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 dismiss();
             }
         });
+
+        //Clears fields
         binding.clearBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Log.i("info", "Clear button clicked.");
                 binding.editTextTask.setText("");
-
                 binding.editTextDate.setText("");
-
                 binding.lowRadioBtn.setChecked(true);
                 binding.editTextTask.requestFocus();
             }
         });
+
+        //Saving the task
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //picked date turns null if string is empty
                 String task = binding.editTextTask.getText().toString();
-                if (binding.editTextDate.getText().toString().isEmpty()){
+                if (binding.editTextDate.getText().toString().isEmpty()) {
                     pickedDate = null;
                 }
-
+                //Assigns priority variable to image ID
                 int priority = 0;
                 if (binding.lowRadioBtn.isChecked()) {
                     priority = R.drawable.priority_low_image;
@@ -146,6 +149,13 @@ public class AddChecklistDialog extends DialogFragment {
                 } else {
                     priority = 0;
                 }
+                /* Tests to see if picked date and current date are indeed same day, but
+                have different set times. Used for when user edits a task that has today
+                set as it's due date. */
+                Calendar testPicked = Calendar.getInstance();
+                testPicked.set(Calendar.YEAR, pickedDate.get(Calendar.YEAR));
+                testPicked.set(Calendar.MONTH, pickedDate.get(Calendar.MONTH));
+                testPicked.set(Calendar.DAY_OF_MONTH, pickedDate.get(Calendar.DAY_OF_MONTH));
 
                 //Makes sure that required fields are filled
                 if (task.equals("") || priority == 0) {
@@ -162,23 +172,24 @@ public class AddChecklistDialog extends DialogFragment {
 
                     AlertDialog alertDialog = alert.create();
                     alertDialog.show();
+                    //Makes sure that the date is valid
+                } else if (pickedDate != null && pickedDate.before(currentDate) && testPicked.before(currentDate)) {
+                    AlertDialog.Builder calAlert = new AlertDialog.Builder(getContext());
+                    calAlert.setTitle("Due date");
+                    calAlert.setMessage("Date should be set the day of or after today's date");
+                    calAlert.setCancelable(false);
+                    calAlert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = calAlert.create();
+                    alertDialog.show();
 
-                } else if(pickedDate != null && pickedDate.compareTo(currentDate) < 0){
 
-                        AlertDialog.Builder calAlert = new AlertDialog.Builder(getContext());
-                        calAlert.setTitle("Due date");
-                        calAlert.setMessage("Date should be set the day of or after today's date");
-                        calAlert.setCancelable(false);
-                        calAlert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        });
-                        AlertDialog alertDialog = calAlert.create();
-                        alertDialog.show();
-
-                }else if(task.length() >= 60){
+                    //Makes sure that the string didn't exceed character limit
+                } else if (task.length() >= 60) {
                     AlertDialog.Builder limitAlert = new AlertDialog.Builder(getContext());
                     limitAlert.setTitle("Exceeded Character Limit");
                     limitAlert.setMessage("Task field should be no longer than 60 characters");
@@ -191,13 +202,13 @@ public class AddChecklistDialog extends DialogFragment {
                     });
                     AlertDialog alertDialog = limitAlert.create();
                     alertDialog.show();
-                }else {
+                    //If all fields are valid, push new task into Arraylist
+                } else {
                     MainActivity mainActivity = (MainActivity) getActivity();
                     Checklist item = new Checklist(task, false, pickedDate, priority, Calendar.getInstance());
-                    if(isEdit){
+                    if (isEdit) {
                         mainActivity.editItem(item, index);
-                    }
-                    else{
+                    } else {
                         mainActivity.addNewItem(item);
                     }
 
@@ -218,7 +229,6 @@ public class AddChecklistDialog extends DialogFragment {
         this.checkItem = check;
         this.index = index;
     }
-
 
 
 }

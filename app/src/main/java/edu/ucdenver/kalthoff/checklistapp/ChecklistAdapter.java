@@ -75,14 +75,6 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
                 checkItem.setTaskStatus(checked);
             }
         });
-//        holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                checkItem.setTaskStatus(b);
-//                //Log.i("info", "Checked bool on " + holder.checkbox.getText() + " : " + checkItem.getTaskStatus());
-//
-//            }
-//        });
 
 
 

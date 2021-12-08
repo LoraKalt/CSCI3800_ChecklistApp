@@ -146,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void addNewItem(Checklist item){
         checklist.add(item);
-        Log.i("info", Integer.toString(checklist.size()));
         checklistAdapter.notifyDataSetChanged();
 
     }
@@ -166,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void editItem(Checklist updatedItem, int index){
-        Log.i("info", "In editItem() method");
         checklist.get(index).setTodoItem(updatedItem.getTodoItem());
         checklist.get(index).setTaskStatus(updatedItem.getTaskStatus());
         checklist.get(index).setDueDate(updatedItem.getDueDate());
@@ -176,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showCheckItem(int showCheckItem){
-        Log.i("info", "Inside showCheckItem");
         ViewChecklistDialog viewChecklistDialog = new ViewChecklistDialog();
         viewChecklistDialog.setCheckItem(checklist.get(showCheckItem), showCheckItem);  //gets index of arraylist
         viewChecklistDialog.show(getSupportFragmentManager(), "");
