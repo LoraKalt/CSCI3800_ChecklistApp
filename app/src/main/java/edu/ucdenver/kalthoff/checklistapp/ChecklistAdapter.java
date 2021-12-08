@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ * Checklist Adaptor. Handles the visualization of a single task in Recycler View
+ */
 public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.Viewholder> {
     private MainActivity mainActivity;
     private ArrayList<Checklist> checklist;
@@ -36,11 +39,17 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
         return new Viewholder(view);
     }
 
+    /**
+     * Display for each task
+     * @param holder the task that is to be displayed
+     * @param position the index of the task in the recycler view
+     */
     @Override
     public void onBindViewHolder(@NonNull ChecklistAdapter.Viewholder holder, int position) {
         Checklist checkItem = this.checklist.get(position);
         holder.checkbox.setText(checkItem.getTodoItem());
         holder.checkbox.setChecked(checkItem.getTaskStatus());
+        //If due date is not null, display the date in the calendar
         if (checkItem.getDueDate() != null){
             Calendar date = checkItem.getDueDate();
             String weekName = date.getDisplayName(Calendar.DAY_OF_WEEK,
@@ -56,12 +65,26 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
 
         holder.priorityImage.setImageResource(checkItem.getPriority());
 
-        holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        Log.i("info", "Checked bool on " + holder.checkbox.getText() + " : " + checkItem.getTaskStatus());
+        holder.checkbox.setOnCheckedChangeListener(null);
+        holder.checkbox.setChecked(checkItem.getTaskStatus());
+        holder.checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                checkItem.setTaskStatus(b);
+            public void onClick(View view) {
+                boolean checked = ((CheckBox)view).isChecked();
+                checkItem.setTaskStatus(checked);
             }
         });
+//        holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                checkItem.setTaskStatus(b);
+//                //Log.i("info", "Checked bool on " + holder.checkbox.getText() + " : " + checkItem.getTaskStatus());
+//
+//            }
+//        });
+
+
 
 
 

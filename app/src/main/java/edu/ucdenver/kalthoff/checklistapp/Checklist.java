@@ -6,6 +6,9 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 
+/**
+ * Checklist Class
+ */
 public class Checklist {
     private String todoItem;
     private Calendar dueDate;
@@ -67,6 +70,11 @@ public class Checklist {
     }
 }
 
+/**
+ * Sorts list by due date, implements Caomparator.
+ * If a task does not have a due date, creates a calendar object of year 9000
+ * to ensure it is sorted last.
+ */
 class dateComparator implements Comparator<Checklist>{
     public int compare(Checklist c1, Checklist c2){
         try{
@@ -92,6 +100,9 @@ class dateComparator implements Comparator<Checklist>{
     }
 }
 
+/**
+ * Sorts list by priority, implements Comparator class to do so.
+ */
 class priorityComparator implements Comparator<Checklist>{
     public int compare(Checklist c1, Checklist c2){
         if (c1.getPriorityNumber() == c2.getPriorityNumber()){
@@ -104,6 +115,9 @@ class priorityComparator implements Comparator<Checklist>{
     }
 }
 
+/**
+ * Sorts list by oldest to newest using creation date. Implements Comparator class to do so
+ */
 class creationComparator implements Comparator<Checklist>{
     public int compare(Checklist c1, Checklist c2){
         return c1.getCreationDate().compareTo(c2.getCreationDate());

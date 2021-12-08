@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_urgent_sort){
             if(!checklist.isEmpty()) {
                 Collections.sort(checklist, new priorityComparator());
+
                 checklistAdapter.notifyDataSetChanged();
             }else {
                 Toast.makeText(getApplicationContext(), "Nothing to sort", Toast.LENGTH_LONG).show();
