@@ -153,9 +153,12 @@ public class AddChecklistDialog extends DialogFragment {
                 have different set times. Used for when user edits a task that has today
                 set as it's due date. */
                 Calendar testPicked = Calendar.getInstance();
-                testPicked.set(Calendar.YEAR, pickedDate.get(Calendar.YEAR));
-                testPicked.set(Calendar.MONTH, pickedDate.get(Calendar.MONTH));
-                testPicked.set(Calendar.DAY_OF_MONTH, pickedDate.get(Calendar.DAY_OF_MONTH));
+                if(pickedDate != null){
+                    testPicked.set(Calendar.YEAR, pickedDate.get(Calendar.YEAR));
+                    testPicked.set(Calendar.MONTH, pickedDate.get(Calendar.MONTH));
+                    testPicked.set(Calendar.DAY_OF_MONTH, pickedDate.get(Calendar.DAY_OF_MONTH));
+                }
+
 
                 //Makes sure that required fields are filled
                 if (task.equals("") || priority == 0) {

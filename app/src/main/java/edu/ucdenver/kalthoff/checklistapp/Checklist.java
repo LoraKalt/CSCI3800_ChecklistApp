@@ -1,21 +1,43 @@
 package edu.ucdenver.kalthoff.checklistapp;
 
-import android.util.Log;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
+import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+
 
 /**
  * Checklist Class
  */
+@Entity
 public class Checklist {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name="id")
+    private int id;
+
+    @NonNull
+    @ColumnInfo(name = "task")
     private String todoItem;
+
+    @ColumnInfo(name = "due_date")
     private Calendar dueDate;
+
+    @ColumnInfo(name = "creation_date")
     private Calendar creationDate;
+
+    @NonNull
+    @ColumnInfo(name = "priority")
     private int priority; //1-urgent, 2-moderate, 3-not urgent
-    private boolean taskStatus; //0=false, 1=true
-    //Note: creation date will be based on incremental id in database
+
+    @ColumnInfo(name = "status")
+    private boolean taskStatus;
 
     public Checklist(String todoItem, boolean taskStatus, Calendar dueDate, int priority, Calendar creationDate){
        this.todoItem = todoItem;
@@ -24,6 +46,9 @@ public class Checklist {
        this.taskStatus = taskStatus;
        this.creationDate = creationDate;
     }
+
+    public int getId(){return id;}
+    public void setId(int id){this.id = id;}
 
     public String getTodoItem() {
         return todoItem;
@@ -123,3 +148,6 @@ class creationComparator implements Comparator<Checklist>{
         return c1.getCreationDate().compareTo(c2.getCreationDate());
     }
 }
+
+
+

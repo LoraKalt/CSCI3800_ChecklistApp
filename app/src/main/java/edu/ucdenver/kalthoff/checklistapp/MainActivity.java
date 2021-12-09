@@ -1,15 +1,12 @@
 package edu.ucdenver.kalthoff.checklistapp;
 
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.view.View;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,26 +15,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private AppBarConfiguration appBarConfiguration;
+    //private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     private ChecklistAdapter checklistAdapter;
 
     private RecyclerView checklistRV;
     private ArrayList<Checklist> checklist;
-    //private DataManager db;
-
-    private int sortBy; //0=default, 1=by due date, 2=by priority
+    private ChecklistDatabase checklistDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -48,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         checklistRV = findViewById(R.id.checklistRecyclerView);
 
         checklist = new ArrayList<>();
+        checklistDatabase = ChecklistDatabase.getInstance(getApplicationContext());
 
         checklistAdapter = new ChecklistAdapter(this, checklist);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,
@@ -144,32 +141,62 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        loadData();
+    }
     public void addNewItem(Checklist item){
-        checklist.add(item);
-        checklistAdapter.notifyDataSetChanged();
+        //checklist.add(item);
+        //checklistAdapter.notifyDataSetChanged();
+        checklistDatabase.checklistDao().insertTask(item);
+        loadData();
 
     }
 
-    public void deleteItem(int index){
-        checklist.remove(index);
+    /**
+     * Loads all data from a database
+     */
+    public void loadData(){
+        checklist.clear();
+        List<Checklist> list2 = checklistDatabase.checklistDao().getAll();
+        if(list2.size() != 0){
+            checklist.addAll(list2);
+        }
         checklistAdapter.notifyDataSetChanged();
+    }
+
+    public void deleteItem(Checklist item){
+//        checklist.remove(index);
+//        checklistAdapter.notifyDataSetChanged();
+        checklistDatabase.checklistDao().deleteTask(item);
+        loadData();
     }
 
     public void deleteAllChecked(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            checklist.removeIf(n -> (n.getTaskStatus() == true));
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            checklist.removeIf(n -> (n.getTaskStatus() == true));
+//        }
+//        checklistAdapter.notifyDataSetChanged();
+        for(int i = 0; i< checklist.size(); i++){
+            if(checklist.get(i).getTaskStatus()){
+                checklistDatabase.checklistDao().deleteTask(checklist.get(i));
+            }
         }
+        loadData();
 
-        checklistAdapter.notifyDataSetChanged();
+
 
     }
 
     public void editItem(Checklist updatedItem, int index){
-        checklist.get(index).setTodoItem(updatedItem.getTodoItem());
-        checklist.get(index).setTaskStatus(updatedItem.getTaskStatus());
-        checklist.get(index).setDueDate(updatedItem.getDueDate());
-        checklist.get(index).setPriority(updatedItem.getPriority());
-        checklistAdapter.notifyDataSetChanged();
+//        checklist.get(index).setTodoItem(updatedItem.getTodoItem());
+//        checklist.get(index).setTaskStatus(updatedItem.getTaskStatus());
+//        checklist.get(index).setDueDate(updatedItem.getDueDate());
+//        checklist.get(index).setPriority(updatedItem.getPriority());
+//        checklistAdapter.notifyDataSetChanged();
+        checklistDatabase.checklistDao().updateTask(updatedItem);
+        loadData();
 
     }
 

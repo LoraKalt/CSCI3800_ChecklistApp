@@ -77,7 +77,8 @@ public class ViewChecklistDialog extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                         MainActivity mainActivity = (MainActivity) getActivity();
-                        mainActivity.deleteItem(index);
+                        //mainActivity.deleteItem(index);
+                        mainActivity.deleteItem(checkItem);
                         dismiss();
                     }
                 });
