@@ -5,14 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,6 +47,7 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
         Checklist checkItem = this.checklist.get(position);
         holder.checkbox.setText(checkItem.getTodoItem());
         holder.checkbox.setChecked(checkItem.getTaskStatus());
+
         //If due date is not null, display the date in the calendar
         if (checkItem.getDueDate() != null){
             Calendar date = checkItem.getDueDate();
@@ -65,7 +64,7 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
 
         holder.priorityImage.setImageResource(checkItem.getPriority());
 
-        Log.i("info", "Checked bool on " + holder.checkbox.getText() + " : " + checkItem.getTaskStatus());
+        //Set up checkbox
         holder.checkbox.setOnCheckedChangeListener(null);
         holder.checkbox.setChecked(checkItem.getTaskStatus());
         holder.checkbox.setOnClickListener(new View.OnClickListener() {
@@ -73,13 +72,9 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
             public void onClick(View view) {
                 boolean checked = ((CheckBox)view).isChecked();
                 checkItem.setTaskStatus(checked);
+                mainActivity.updateStatus(checkItem);
             }
         });
-
-
-
-
-
     }
 
     @Override
@@ -93,6 +88,7 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
 
     }
 
+    //Assigns view variables
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private ImageView priorityImage, boxImage;
         private TextView date;

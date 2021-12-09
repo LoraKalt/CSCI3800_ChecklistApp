@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import java.text.MessageFormat;
@@ -36,7 +37,7 @@ public class ViewChecklistDialog extends DialogFragment {
 
         binding.taskCheckboxView.setText(checkItem.getTodoItem());
         binding.taskCheckboxView.setChecked(checkItem.getTaskStatus());
-
+        
         if(checkItem.getDueDate() != null){
             String weekName = checkItem.getDueDate().getDisplayName(Calendar.DAY_OF_WEEK,
                     Calendar.SHORT, Locale.US);

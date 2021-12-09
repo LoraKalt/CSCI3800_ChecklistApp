@@ -1,20 +1,17 @@
 package edu.ucdenver.kalthoff.checklistapp;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 
 
 /**
- * Checklist Class
+ * Checklist Class using DAO database
  */
 @Entity
 public class Checklist {
@@ -39,6 +36,14 @@ public class Checklist {
     @ColumnInfo(name = "status")
     private boolean taskStatus;
 
+    /**
+     * Constructor
+     * @param todoItem String specifying the task that needs to be done
+     * @param taskStatus boolean specifying the completion of task
+     * @param dueDate Calendar specifying the date task needs to be completed. Can be null
+     * @param priority Integer specifying the type of priority of the task
+     * @param creationDate Calendar specifying the date the object was created
+     */
     public Checklist(String todoItem, boolean taskStatus, Calendar dueDate, int priority, Calendar creationDate){
        this.todoItem = todoItem;
        this.dueDate = dueDate;
@@ -47,6 +52,9 @@ public class Checklist {
        this.creationDate = creationDate;
     }
 
+    /**
+     * Getters and Setters
+     */
     public int getId(){return id;}
     public void setId(int id){this.id = id;}
 
@@ -103,6 +111,7 @@ public class Checklist {
 class dateComparator implements Comparator<Checklist>{
     public int compare(Checklist c1, Checklist c2){
         try{
+            //creates 2 new Calendar objects in case comparing against a null object
             Calendar c1New = c1.getCreationDate();
             c1New.set(Calendar.YEAR, 9000);
             Calendar c2New = c2.getCreationDate();

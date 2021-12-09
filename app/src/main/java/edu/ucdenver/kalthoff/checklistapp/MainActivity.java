@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Main view of App
+ */
 public class MainActivity extends AppCompatActivity {
-    //private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     private ChecklistAdapter checklistAdapter;
 
@@ -31,10 +33,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -74,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+         /*Handle action bar item clicks here. The action bar will
+         automatically handle clicks on the Home/Up button, so long
+         as you specify a parent activity in AndroidManifest.xml. */
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -90,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Delete Tasks");
                 builder.setMessage("Are you sure you want to delete all checked items?");
-                //builder.setCancelable(false); (for when you want to prevent them from exiting outside menu
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -112,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }else if (id == R.id.action_default_sort) {
+            //Default Sort
             if(!checklist.isEmpty()) {
                 Collections.sort(checklist, new creationComparator());
                 checklistAdapter.notifyDataSetChanged();
@@ -120,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else if (id == R.id.action_date_sort){
+            //Sort By Date
             if(!checklist.isEmpty()){
                 Collections.sort(checklist, new dateComparator());
                 checklistAdapter.notifyDataSetChanged();
@@ -128,16 +127,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else if (id == R.id.action_urgent_sort){
+            //Sort by Priority
             if(!checklist.isEmpty()) {
                 Collections.sort(checklist, new priorityComparator());
-
                 checklistAdapter.notifyDataSetChanged();
             }else {
                 Toast.makeText(getApplicationContext(), "Nothing to sort", Toast.LENGTH_LONG).show();
             }
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -146,9 +143,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         loadData();
     }
+
+    /**
+     * Add new Task to the list
+     * @param item Checklist
+     */
     public void addNewItem(Checklist item){
-        //checklist.add(item);
-        //checklistAdapter.notifyDataSetChanged();
         checklistDatabase.checklistDao().insertTask(item);
         loadData();
 
@@ -166,40 +166,55 @@ public class MainActivity extends AppCompatActivity {
         checklistAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Deletes Task from the list
+     * @param item Checklist
+     */
     public void deleteItem(Checklist item){
-//        checklist.remove(index);
-//        checklistAdapter.notifyDataSetChanged();
         checklistDatabase.checklistDao().deleteTask(item);
         loadData();
     }
 
+    /**
+     * Delete all Checked/Completed tasks from the list
+     */
     public void deleteAllChecked(){
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            checklist.removeIf(n -> (n.getTaskStatus() == true));
-//        }
-//        checklistAdapter.notifyDataSetChanged();
         for(int i = 0; i< checklist.size(); i++){
             if(checklist.get(i).getTaskStatus()){
                 checklistDatabase.checklistDao().deleteTask(checklist.get(i));
             }
         }
         loadData();
-
-
-
     }
 
-    public void editItem(Checklist updatedItem, int index){
-//        checklist.get(index).setTodoItem(updatedItem.getTodoItem());
-//        checklist.get(index).setTaskStatus(updatedItem.getTaskStatus());
-//        checklist.get(index).setDueDate(updatedItem.getDueDate());
-//        checklist.get(index).setPriority(updatedItem.getPriority());
-//        checklistAdapter.notifyDataSetChanged();
-        checklistDatabase.checklistDao().updateTask(updatedItem);
+    /**
+     * Edits a given task
+     * @param oldTask Checklist
+     * @param updateTask Checklist
+     */
+    public void editItem(Checklist oldTask, Checklist updateTask){
+        oldTask.setTodoItem(updateTask.getTodoItem());
+        oldTask.setTaskStatus(updateTask.getTaskStatus());
+        oldTask.setDueDate(updateTask.getDueDate());
+        oldTask.setPriority(updateTask.getPriority());
+        checklistDatabase.checklistDao().updateTask(oldTask);
         loadData();
 
     }
 
+    /**
+     * Updates the status of the task
+     * @param task Checklist
+     */
+    public void updateStatus(Checklist task){
+        checklistDatabase.checklistDao().updateTask(task);
+        loadData();
+    }
+
+    /**
+     * Pops of the View Task window
+     * @param showCheckItem Integer, index on the list
+     */
     public void showCheckItem(int showCheckItem){
         ViewChecklistDialog viewChecklistDialog = new ViewChecklistDialog();
         viewChecklistDialog.setCheckItem(checklist.get(showCheckItem), showCheckItem);  //gets index of arraylist

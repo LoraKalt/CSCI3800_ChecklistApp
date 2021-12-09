@@ -8,18 +8,19 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import edu.ucdenver.kalthoff.checklistapp.databinding.DialogAddChecklistBinding;
 
+/**
+ * Add Checklist Dialog Fragment
+ */
 public class AddChecklistDialog extends DialogFragment {
     private DialogAddChecklistBinding binding;
     private Checklist checkItem;
@@ -30,6 +31,9 @@ public class AddChecklistDialog extends DialogFragment {
     private int day;
     private Calendar pickedDate;
 
+    /**
+     * Constructor
+     */
     public AddChecklistDialog() {
         this.isEdit = false;
         this.index = 0;
@@ -45,6 +49,7 @@ public class AddChecklistDialog extends DialogFragment {
 
         Calendar currentDate = Calendar.getInstance();
 
+        //If CheckItem already exists. If it does, initializes fields with pre-existing data
         if (checkItem != null) {
             binding.editTextTask.setText(checkItem.getTodoItem());
             if (checkItem.getDueDate() != null) {
@@ -70,8 +75,9 @@ public class AddChecklistDialog extends DialogFragment {
             pickedDate = null;
         }
 
-
+        //Sets up date (DatePicker pops up upon clicking)
         binding.editTextDate.setOnClickListener(new View.OnClickListener() {
+            //Sets up date integers based on if edit mode or not
             @Override
             public void onClick(View view) {
                 if (isEdit && pickedDate != null) {
@@ -86,13 +92,14 @@ public class AddChecklistDialog extends DialogFragment {
                 }
 
                 //Allows user to select a date from date picker widget
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                        new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int selectedYear, int
                             selectedMonth, int selectedDay) {
 
+                        //Initializes calendar
                         Calendar date = Calendar.getInstance();
-                        ;
 
                         date.set(Calendar.YEAR, selectedYear);
                         date.set(Calendar.MONTH, selectedMonth);
@@ -149,19 +156,20 @@ public class AddChecklistDialog extends DialogFragment {
                 } else {
                     priority = 0;
                 }
-                /* Tests to see if picked date and current date are indeed same day, but
-                have different set times. Used for when user edits a task that has today
-                set as it's due date. */
+
                 Calendar testPicked = Calendar.getInstance();
                 if(pickedDate != null){
+                    /* Tests to see if picked date and current date are indeed same day, but
+                        have different set times. Used for when user edits a task that has today
+                        set as it's due date. */
                     testPicked.set(Calendar.YEAR, pickedDate.get(Calendar.YEAR));
                     testPicked.set(Calendar.MONTH, pickedDate.get(Calendar.MONTH));
                     testPicked.set(Calendar.DAY_OF_MONTH, pickedDate.get(Calendar.DAY_OF_MONTH));
                 }
 
 
-                //Makes sure that required fields are filled
                 if (task.equals("") || priority == 0) {
+                    //Makes sure that required fields are filled
                     AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                     alert.setTitle("Empty fields");
                     alert.setMessage("All required fields must be filled in");
@@ -175,8 +183,10 @@ public class AddChecklistDialog extends DialogFragment {
 
                     AlertDialog alertDialog = alert.create();
                     alertDialog.show();
+
+                } else if (pickedDate != null && pickedDate.before(currentDate) &&
+                        testPicked.before(currentDate)) {
                     //Makes sure that the date is valid
-                } else if (pickedDate != null && pickedDate.before(currentDate) && testPicked.before(currentDate)) {
                     AlertDialog.Builder calAlert = new AlertDialog.Builder(getContext());
                     calAlert.setTitle("Due date");
                     calAlert.setMessage("Date should be set the day of or after today's date");
@@ -191,8 +201,9 @@ public class AddChecklistDialog extends DialogFragment {
                     alertDialog.show();
 
 
-                    //Makes sure that the string didn't exceed character limit
+
                 } else if (task.length() >= 60) {
+                    //Makes sure that the string didn't exceed character limit
                     AlertDialog.Builder limitAlert = new AlertDialog.Builder(getContext());
                     limitAlert.setTitle("Exceeded Character Limit");
                     limitAlert.setMessage("Task field should be no longer than 60 characters");
@@ -205,12 +216,14 @@ public class AddChecklistDialog extends DialogFragment {
                     });
                     AlertDialog alertDialog = limitAlert.create();
                     alertDialog.show();
-                    //If all fields are valid, push new task into Arraylist
+
                 } else {
+                    //If all fields are valid, push new task into Arraylist
                     MainActivity mainActivity = (MainActivity) getActivity();
-                    Checklist item = new Checklist(task, false, pickedDate, priority, Calendar.getInstance());
+                    Checklist item = new Checklist(task, false, pickedDate, priority,
+                            Calendar.getInstance());
                     if (isEdit) {
-                        mainActivity.editItem(item, index);
+                        mainActivity.editItem(checkItem, item);
                     } else {
                         mainActivity.addNewItem(item);
                     }
@@ -228,6 +241,11 @@ public class AddChecklistDialog extends DialogFragment {
 
     }
 
+    /**
+     * Sends the selected task back
+     * @param check Checkbox Object
+     * @param index Integer
+     */
     public void sendSelectedItem(Checklist check, int index) {
         this.checkItem = check;
         this.index = index;

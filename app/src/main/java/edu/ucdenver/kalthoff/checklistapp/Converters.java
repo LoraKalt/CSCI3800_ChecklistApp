@@ -9,7 +9,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ * Handles the conversion of complex object types to types that the database can handle
+ */
 public class Converters {
+    /**
+     * Converts a string to a Calendar date
+     * @param str String to be converted, must be exact
+     * @return Calendar
+     */
     @TypeConverter
     public static Calendar toDate(String str) {
         try {
@@ -27,6 +35,11 @@ public class Converters {
         return null;
     }
 
+    /**
+     * Converts a Calendar object to a String
+     * @param date Calendar
+     * @return String
+     */
     @TypeConverter
     public static String toString(Calendar date) {
         if (date != null) {

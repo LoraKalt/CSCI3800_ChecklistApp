@@ -8,6 +8,9 @@ import androidx.room.Update;
 
 import java.util.List;
 
+/**
+ * Sets of Database actions (query, insert, update, delete)
+ */
 @Dao
 public interface ChecklistDao {
     @Query("SELECT * FROM checklist")
