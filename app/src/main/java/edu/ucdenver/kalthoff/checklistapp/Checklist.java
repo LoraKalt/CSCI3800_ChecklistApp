@@ -129,8 +129,6 @@ class dateComparator implements Comparator<Checklist>{
         } catch(NullPointerException npe){
             return -1;
         }
-
-
     }
 }
 
@@ -139,22 +137,16 @@ class dateComparator implements Comparator<Checklist>{
  */
 class priorityComparator implements Comparator<Checklist>{
     public int compare(Checklist c1, Checklist c2){
-        if (c1.getPriorityNumber() == c2.getPriorityNumber()){
-            return 0;
-        } else if (c1.getPriorityNumber() > c2.getPriorityNumber()){
-            return 1;
-        } else {
-            return -1;
-        }
+        return Integer.compare(c1.getPriorityNumber(), c2.getPriorityNumber());
     }
 }
 
 /**
- * Sorts list by oldest to newest using creation date. Implements Comparator class to do so
+ * Sorts list by oldest to newest by using their auto incremented id
  */
 class creationComparator implements Comparator<Checklist>{
     public int compare(Checklist c1, Checklist c2){
-        return c1.getCreationDate().compareTo(c2.getCreationDate());
+        return Integer.compare(c1.getId(), c2.getId());
     }
 }
 

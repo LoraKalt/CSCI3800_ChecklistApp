@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView checklistRV;
     private ArrayList<Checklist> checklist;
     private ChecklistDatabase checklistDatabase;
+    private int sortType; //0=default, 1=date, 2=priority
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
+
+        sortType = 0; //default
 
 
         //Set up Recycler View
@@ -111,8 +114,10 @@ public class MainActivity extends AppCompatActivity {
         }else if (id == R.id.action_default_sort) {
             //Default Sort
             if(!checklist.isEmpty()) {
-                Collections.sort(checklist, new creationComparator());
-                checklistAdapter.notifyDataSetChanged();
+                sortType = 0;
+//                Collections.sort(checklist, new creationComparator());
+//                checklistAdapter.notifyDataSetChanged();
+                loadData();
             } else {
                 Toast.makeText(getApplicationContext(), "Nothing to sort", Toast.LENGTH_LONG).show();
             }
@@ -120,8 +125,10 @@ public class MainActivity extends AppCompatActivity {
         else if (id == R.id.action_date_sort){
             //Sort By Date
             if(!checklist.isEmpty()){
-                Collections.sort(checklist, new dateComparator());
-                checklistAdapter.notifyDataSetChanged();
+                sortType = 1;
+//                Collections.sort(checklist, new dateComparator());
+//                checklistAdapter.notifyDataSetChanged();
+                loadData();
             }else {
                 Toast.makeText(getApplicationContext(), "Nothing to sort", Toast.LENGTH_LONG).show();
             }
@@ -129,8 +136,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_urgent_sort){
             //Sort by Priority
             if(!checklist.isEmpty()) {
-                Collections.sort(checklist, new priorityComparator());
-                checklistAdapter.notifyDataSetChanged();
+                sortType = 2;
+//                Collections.sort(checklist, new priorityComparator());
+//                checklistAdapter.notifyDataSetChanged();
+                loadData();
             }else {
                 Toast.makeText(getApplicationContext(), "Nothing to sort", Toast.LENGTH_LONG).show();
             }
@@ -162,6 +171,15 @@ public class MainActivity extends AppCompatActivity {
         List<Checklist> list2 = checklistDatabase.checklistDao().getAll();
         if(list2.size() != 0){
             checklist.addAll(list2);
+            if(sortType == 1){
+                //sort by date
+                Collections.sort(checklist, new dateComparator());
+            } else if(sortType == 2){
+                //sort by priority
+                Collections.sort(checklist, new priorityComparator());
+            } else {
+                Collections.sort(checklist, new creationComparator());
+            }
         }
         checklistAdapter.notifyDataSetChanged();
     }
