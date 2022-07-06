@@ -1,8 +1,8 @@
 # CSCI3800_ChecklistApp
 Lora Kalthoff
-Final Project for Android App Development
-Developed in Android Studios 
-Android 6.0 (Marshmallow) and tested with the Pixel 4 API 26
+- Final Project for Android App Development
+- Developed in Android Studios with Java
+- Android 6.0 (Marshmallow) and tested with the Pixel 4 API 26
 
 [View Project Report pdf](https://github.com/LoraKalt/CSCI3800_ChecklistApp/blob/master/LoraK_ProjectReport.pdf)
 
